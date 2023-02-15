@@ -18,15 +18,11 @@
     "@pwabuilder/pwainstall": "^1.6.7",
     "@shoelace-style/shoelace": "^2.0.0-beta.82",
     "@vaadin/router": "^1.7.4",
-    "lit": "^2.3.1",
-    "workbox-build": "^6.5.2",
-    "workbox-core": "^6.5.2",
-    "workbox-precaching": "^6.5.2"
+    "lit": "^2.3.1"
   },
   "devDependencies": {
     "typescript": "^4.6.3",
-    "vite": "^2.9.0",
-    "vite-plugin-pwa": "^0.11.13"
+    "vite": "^2.9.0"
   },
   "prettier": {
     "tabWidth": 2,

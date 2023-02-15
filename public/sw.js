@@ -1,8 +1,32 @@
-importScripts(
-    'https://storage.googleapis.com/workbox-cdn/releases/6.5.4/workbox-sw.js'
-);
+// Vanilla JS Service Worker, see https://docs.pwabuilder.com/#/home/sw-intro for info on service worker basics.
 
-// This is your Service Worker, you can put any of your custom Service Worker
-// code in this file, above the `precacheAndRoute` line.
+const NETWORK_TIMEOUT_MS = 500
+const RUNTIME = 'pwa-starter'
 
-workbox.precaching.precacheAndRoute(self.__WB_MANIFEST || []);
+// See claiming clients during activate documentation here: https://docs.pwabuilder.com/#/home/sw-intro?id=claiming-clients-during-the-activate-event
+self.addEventListener('activate', event => {
+    event.waitUntil(self.clients.claim())
+})
+
+self.addEventListener('fetch', event => {
+    const cached = caches.match(event.request)
+    const fetched = fetch(event.request, { cache: 'no-store' })
+    const fetchedCopy = fetched.then(resp => resp.clone())
+
+    const delayCacheResponse = new Promise((resolve) => {
+        setTimeout(resolve, NETWORK_TIMEOUT_MS, cached);
+    })
+
+    event.respondWith(
+    Promise.race([fetched.catch(_ => cached), delayCacheResponse])
+        .then(resp => resp || fetched)
+        .catch(_ => { /* eat any errors */ })
+    )
+
+    // Update the cache with the version we fetched (only for ok status)
+    event.waitUntil(
+    Promise.all([fetchedCopy, caches.open(RUNTIME)])
+        .then(([response, cache]) => response.ok && cache.put(event.request, response))
+        .catch(_ => { /* eat any errors */ })
+    )
+})
