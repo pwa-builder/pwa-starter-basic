@@ -4,8 +4,14 @@ import { css } from 'lit';
 // for an example of how to use this, check /pages/about-about.ts
 export const styles = css`
   @media(min-width: 1000px) {
-    sl-card {
+    #aboutCard {
       max-width: 70vw;
     }
+  }
+
+  div {
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 10px;
   }
 `;

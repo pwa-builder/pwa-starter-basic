@@ -1,9 +1,6 @@
 import { LitElement, css, html } from 'lit';
 import { property, customElement } from 'lit/decorators.js';
 
-import '@shoelace-style/shoelace/dist/components/card/card.js';
-import '@shoelace-style/shoelace/dist/components/button/button.js';
-
 import { styles } from '../styles/shared-styles';
 
 @customElement('app-home')
@@ -17,9 +14,10 @@ export class AppHome extends LitElement {
     return [
       styles,
       css`
+
       #welcomeBar {
         display: flex;
-        justify-content: center;
+        //justify-content: center;
         align-items: center;
         flex-direction: column;
       }
@@ -30,13 +28,8 @@ export class AppHome extends LitElement {
         padding-top: 0px;
       }
 
-      sl-card::part(footer) {
-        display: flex;
-        justify-content: flex-end;
-      }
-
       @media(min-width: 750px) {
-        sl-card {
+        #welcomeCard {
           width: 70vw;
         }
       }
@@ -82,8 +75,8 @@ export class AppHome extends LitElement {
 
       <main>
         <div id="welcomeBar">
-          <sl-card id="welcomeCard">
-            <div slot="header">
+          <div id="welcomeCard">
+            <div>
               <h2>${this.message}</h2>
             </div>
 
@@ -102,12 +95,10 @@ export class AppHome extends LitElement {
               and the Apple App Store!
             </p>
 
-            ${'share' in navigator
-              ? html`<sl-button slot="footer" variant="primary" @click="${this.share}">Share this Starter!</sl-button>`
-              : null}
-          </sl-card>
+            ${'share' in navigator ? html`<button @click="${this.share}">Share this Starter!</button>`: null }
+          </div>
 
-          <sl-card id="infoCard">
+          <div id="infoCard">
             <h2>Technology Used</h2>
 
             <ul>
@@ -118,19 +109,14 @@ export class AppHome extends LitElement {
               <li>
                 <a href="https://lit.dev">lit</a>
               </li>
-
-              <li>
-                <a href="https://shoelace.style/">Shoelace</a>
-              </li>
-
               <li>
                 <a href="https://vaadin.github.io/vaadin-router/vaadin-router/demo/#vaadin-router-getting-started-demos"
                   >Vaadin Router</a>
               </li>
             </ul>
-          </sl-card>
+          </div>
 
-          <sl-button href="${(import.meta as any).env.BASE_URL}about" variant="primary">Navigate to About</sl-button>
+          <a href="${(import.meta as any).env.BASE_URL}about"><button> Navigate to About </button></a>
         </div>
       </main>
     `;
